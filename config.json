@@ -4,22 +4,38 @@
   "wallets_password": "",
   "log_file": "default.log",
   "rpc": {
-    "scroll": "https://1rpc.io/scroll",
-    "ethereum": "https://ethereum.publicnode.com"
+    "arbitrum": [
+      "https://1rpc.io/arb",
+      "https://arbitrum.meowrpc.com",
+      "https://arbitrum.llamarpc.com"
+    ],
+    "ethereum": [
+      "https://ethereum.publicnode.com",
+      "https://1rpc.io/eth"
+    ]
   },
   "explorer_url": {
-    "scroll": "https://scrollscan.com/"
+    "arbitrum": "https://arbiscan.io/"
   },
   "max_gwei": 30,
   "shuffle_wallets": true,
+  "network": "arbitrum",
+  "modules": {
+    "kelp": {
+      "enabled": true
+    },
+    "renzo": {
+      "enabled": false
+    }
+  },
   "delays": {
     "wallet": [
-      90,
-      120
+      5,
+      10
     ],
     "project": [
-      20,
-      40
+      10,
+      20
     ]
   }
 }

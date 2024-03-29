@@ -1,1 +1,5 @@
-# -*- coding: utf-8 -*-
+from modules.kelp import Kelp
+
+modules = {
+    'kelp': Kelp,
+}
