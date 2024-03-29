@@ -1,0 +1,25 @@
+{
+  "show_degensoft_logo": false,
+  "wallets_file": "wallets.txt",
+  "wallets_password": "",
+  "log_file": "default.log",
+  "rpc": {
+    "scroll": "https://1rpc.io/scroll",
+    "ethereum": "https://ethereum.publicnode.com"
+  },
+  "explorer_url": {
+    "scroll": "https://scrollscan.com/"
+  },
+  "max_gwei": 30,
+  "shuffle_wallets": true,
+  "delays": {
+    "wallet": [
+      90,
+      120
+    ],
+    "project": [
+      20,
+      40
+    ]
+  }
+}
