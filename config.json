@@ -1,5 +1,5 @@
 {
-  "show_degensoft_logo": false,
+  "show_degensoft_logo": true,
   "wallets_file": "wallets.txt",
   "wallets_password": "",
   "log_file": "default.log",
@@ -19,9 +19,9 @@
   },
   "max_gwei": 30,
   "shuffle_wallets": true,
+  "shuffle_modules": true,
   "network": "arbitrum",
   "random_module": false,
-  "shuffle_modules": true,
   "modules": {
     "kelp": {
       "enabled": true,
@@ -33,7 +33,16 @@
       "max_tx_cost": 0.00001
     },
     "renzo": {
-      "enabled": false
+      "enabled": true,
+      "amount": [
+        0.0011,
+        0.0016
+      ],
+      "amount_percent": [
+        10,
+        20
+      ],
+      "max_tx_cost": 0.00001
     }
   },
   "delays": {

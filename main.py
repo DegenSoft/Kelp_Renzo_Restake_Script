@@ -45,26 +45,40 @@ class Worker:
             logger.error(f'could not load wallets: {exp}')
             return
         for i, private_key in enumerate(self.wallets, 1):
-            await self.process_wallet(private_key, i)
-            # todo: wallet delay
+            is_ok = await self.process_wallet(private_key, i)
+            if is_ok and i < len(self.wallets):
+                delay = random.randint(*self.config.delays.wallet)
+                logger.debug(f'delay for {delay} sec')
+                await asyncio.sleep(delay)
 
     def get_prc(self, network):
         return random.choice(self.config.data['rpc'][network]) if (
                 type(self.config.data['rpc'][network]) is list) else self.config.data['rpc'][network]
 
     @retry_on_exception(retries=3)
-    async def process_wallet(self, private_key, i):
+    async def process_wallet(self, private_key, i) -> bool:
         await wait_for_gas(self.config.max_gwei, logger=logger, ethereum_rpc=self.get_prc('ethereum'))
-        web3 = AsyncWeb3(AsyncHTTPProvider(self.get_prc('arbitrum')))
+        web3 = AsyncWeb3(AsyncHTTPProvider(self.get_prc(self.config.network)))
         account = web3.eth.account.from_key(private_key)
         balance = await web3.eth.get_balance(account.address)
         logger.info(f'account {i}/{len(self.wallets)} {account.address} '
                     f'{web3.from_wei(balance, "ether"):.4f} ETH)')
-        # todo: shuffle modules
-        for module_name in self.config.data['modules']:
-            if self.config.data['modules'][module_name]['enabled']:
-                res = await self.process_module(module_name, web3, account)
-                # todo: project delay
+        _modules = [_name for _name in self.config.data['modules'] if
+                    self.config.data['modules'][_name]['enabled']]
+        if self.config.shuffle_modules:
+            random.shuffle(_modules)
+        if self.config.random_module:
+            _modules = [random.choice(_modules)]
+        is_ok = False
+        for i, module_name in enumerate(_modules, 1):
+            res = is_ok or await self.process_module(module_name, web3, account)
+            if res:
+                is_ok = True
+            if res and i < len(_modules):
+                delay = random.randint(*self.config.delays.project)
+                logger.debug(f'delay for {delay} sec')
+                await asyncio.sleep(delay)
+        return is_ok
 
     @retry_on_exception(retries=3)
     async def process_module(self, module_name, web3, account) -> bool:
@@ -86,7 +100,7 @@ def setup_logger(log_file):
                format="<white>{time:YYYY-MM-DD HH:mm:ss}</white> | "
                       "<level>{level: <2}</level> | "
                       "<white>{function}</white> | "
-                      "<white>{line}</white> - "
+                      # "<white>{line}</white> - "
                       "<white>{message}</white>")
     logger.add(log_file)
 

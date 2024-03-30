@@ -1,7 +1,10 @@
 import json
+import random
 
 from web3 import AsyncWeb3
 from web3.types import TxReceipt
+
+from degensoft.utils import random_float
 
 
 class BaseModule:
@@ -14,6 +17,17 @@ class BaseModule:
         if self.CONTRACT_ADDRESS:
             self.contract = self.web3.eth.contract(self.web3.to_checksum_address(self.CONTRACT_ADDRESS),
                                                    abi=json.loads(self.ABI))
+
+    async def calculate_value(self, account):
+        balance = await self.web3.eth.get_balance(account.address)
+        max_value = float(self.web3.from_wei(balance, 'ether')) - self.config['max_tx_cost']
+
+        if not self.config['amount_percent']:
+            value = random_float(self.config['amount'][0],
+                                 min(self.config['amount'][1], max_value))
+        else:
+            value = max_value * random.randint(*self.config['amount_percent']) / 100.0
+        return value
 
     async def build_transaction(self, account, tx_call, value: int, tx_data: dict = None):
         _tx_data = {
