@@ -20,9 +20,17 @@
   "max_gwei": 30,
   "shuffle_wallets": true,
   "network": "arbitrum",
+  "random_module": false,
+  "shuffle_modules": true,
   "modules": {
     "kelp": {
-      "enabled": true
+      "enabled": true,
+      "amount": [
+        0.001,
+        0.0015
+      ],
+      "amount_percent": [],
+      "max_tx_cost": 0.00001
     },
     "renzo": {
       "enabled": false

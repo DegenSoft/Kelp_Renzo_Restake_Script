@@ -9,6 +9,7 @@ from degensoft.config import Config
 from degensoft.filereader import load_and_decrypt_wallets
 from degensoft.gas_limit import wait_for_gas
 from degensoft.logo import print_degensoft_splash
+from degensoft.utils import get_explorer_tx_url
 from modules import modules
 
 
@@ -45,6 +46,7 @@ class Worker:
             return
         for i, private_key in enumerate(self.wallets, 1):
             await self.process_wallet(private_key, i)
+            # todo: wallet delay
 
     def get_prc(self, network):
         return random.choice(self.config.data['rpc'][network]) if (
@@ -58,15 +60,24 @@ class Worker:
         balance = await web3.eth.get_balance(account.address)
         logger.info(f'account {i}/{len(self.wallets)} {account.address} '
                     f'{web3.from_wei(balance, "ether"):.4f} ETH)')
+        # todo: shuffle modules
         for module_name in self.config.data['modules']:
             if self.config.data['modules'][module_name]['enabled']:
-                await self.process_module(module_name, web3, private_key)
+                res = await self.process_module(module_name, web3, account)
+                # todo: project delay
 
     @retry_on_exception(retries=3)
-    async def process_module(self, module_name, web3, private_key):
+    async def process_module(self, module_name, web3, account) -> bool:
         logger.debug(f'processing {module_name}...')
         cls = modules[module_name]
-        res = await cls(web3=web3, config=self.config.data['modules'][module_name]).run(private_key)
+        module_config = self.config.data['modules'][module_name]
+        tx_receipt = await cls(web3=web3, config=module_config).run(account)
+        tx_url = get_explorer_tx_url(tx_receipt.transactionHash, self.config.explorer_url.arbitrum)
+        if tx_receipt.status:
+            logger.info(f'OK | {tx_url}')
+        else:
+            logger.error(f'FAILED | {tx_url}')
+        return tx_receipt.status
 
 
 def setup_logger(log_file):
