@@ -11,6 +11,7 @@
 
 Все настройки в  `config.json`
 
+* `network` рабочая сеть, `linea` или `arbitrum`, для Linea нужно отключить модуль kelp
 * `modules.kelp` настройки протокола Kelp
 * `modules.renzo` настройки протокола Renzo
 * `amount` сумма от..до в ETH
