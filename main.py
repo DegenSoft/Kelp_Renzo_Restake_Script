@@ -63,6 +63,9 @@ class Worker:
         balance = await web3.eth.get_balance(account.address)
         logger.info(f'account {i}/{len(self.wallets)} {account.address} '
                     f'{web3.from_wei(balance, "ether"):.4f} ETH)')
+        if not balance:
+            logger.error('no balance')
+            return False
         _modules = [_name for _name in self.config.data['modules'] if
                     self.config.data['modules'][_name]['enabled']]
         if self.config.shuffle_modules:
@@ -71,7 +74,7 @@ class Worker:
             _modules = [random.choice(_modules)]
         is_ok = False
         for i, module_name in enumerate(_modules, 1):
-            res = is_ok or await self.process_module(module_name, web3, account)
+            res = await self.process_module(module_name, web3, account) or is_ok
             if res:
                 is_ok = True
             if res and i < len(_modules):
@@ -86,7 +89,7 @@ class Worker:
         cls = modules[module_name]
         module_config = self.config.data['modules'][module_name]
         tx_receipt = await cls(web3=web3, config=module_config).run(account)
-        tx_url = get_explorer_tx_url(tx_receipt.transactionHash, self.config.explorer_url.arbitrum)
+        tx_url = get_explorer_tx_url(tx_receipt.transactionHash, self.config.data['explorer_url'][self.config.network])
         if tx_receipt.status:
             logger.info(f'OK | {tx_url}')
         else:
