@@ -25,4 +25,5 @@ class Renzo(BaseModule):
         tx_call = self.contract.functions.depositETH(min_out, deadline)
         logger.debug(f'{value:.4f} ETH -> Renzo Protocol')
         tx = await self.build_transaction(account, tx_call, self.web3.to_wei(value, 'ether'))
+        tx['gas'] = int(await self.web3.eth.estimate_gas(tx) * 1.25)
         return await self.send_and_wait_for_transaction(account, tx)
