@@ -9,13 +9,19 @@
       "https://arbitrum.meowrpc.com",
       "https://arbitrum.llamarpc.com"
     ],
+    "linea": [
+      "https://linea.decubate.com",
+      "https://1rpc.io/linea",
+      "https://linea.drpc.org"
+    ],
     "ethereum": [
       "https://ethereum.publicnode.com",
       "https://1rpc.io/eth"
     ]
   },
   "explorer_url": {
-    "arbitrum": "https://arbiscan.io/"
+    "arbitrum": "https://arbiscan.io/",
+    "linea": "https://lineascan.build/"
   },
   "max_gwei": 30,
   "shuffle_wallets": true,
@@ -27,7 +33,7 @@
       "enabled": true,
       "amount": [
         0.001,
-        0.0015
+        0.0012
       ],
       "amount_percent": [],
       "max_tx_cost": 0.00001
@@ -35,13 +41,10 @@
     "renzo": {
       "enabled": true,
       "amount": [
-        0.0011,
-        0.0016
+        0.001,
+        0.0013
       ],
-      "amount_percent": [
-        10,
-        20
-      ],
+      "amount_percent": [],
       "max_tx_cost": 0.00001
     }
   },
