@@ -1,9 +1,9 @@
 {
-  "show_degensoft_logo": true,        # отображение логов Degensoft
+  "show_degensoft_logo": true,
   "wallets_file": "wallets.txt",
-  "wallets_password": "12345",        # пароль для расширофки кошельков
-  "log_file": "default.log",          # файл для сохранения логов
-  "rpc": {                            # настройки RPC
+  "wallets_password": "12345",
+  "log_file": "default.log",          
+  "rpc": {
     "arbitrum": [
       "https://1rpc.io/arb",
       "https://arbitrum.meowrpc.com",
@@ -23,25 +23,25 @@
     "arbitrum": "https://arbiscan.io/",
     "linea": "https://lineascan.build/"
   },
-  "max_gwei": 40,           # ограничение GWEI
-  "shuffle_wallets": true,  # перемешивание кошельков
-  "shuffle_modules": true,  # перемешивание проектов
-  "network": "linea",       # выбор сети arbitrum/linea/ethereum
-  "random_module": false,   # случайный проект
+  "max_gwei": 40,
+  "shuffle_wallets": true,
+  "shuffle_modules": true,
+  "network": "linea",
+  "random_module": false,
   "modules": {
     "kelp": {
-      "enabled": false,      # включаем/выключаем проект Kelp
-      "amount": [],          # выбор суммы для стейкинга в ETH
-      "amount_percent": [    # выбор суммы для стейкинга в % от баланса
+      "enabled": false,
+      "amount": [],
+      "amount_percent": [
         70,
         90
       ],      
       "max_tx_cost": 0.00001
     },
     "renzo": {
-      "enabled": true,      # включаем/выключаем проект Renzo
-      "amount": [],         # выбор суммы для стейкинга в ETH
-      "amount_percent": [   # выбор суммы для стейкинга в % от баланса
+      "enabled": true,
+      "amount": [],
+      "amount_percent": [
         70,
         90
       ],      
@@ -49,11 +49,11 @@
     }
   },
   "delays": {
-    "wallet": [           # задержки между кошельками
+    "wallet": [
       90,
       120
     ],
-    "project": [         # задержки между проектами
+    "project": [
       60,
       90
     ]
