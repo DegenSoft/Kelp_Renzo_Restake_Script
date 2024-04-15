@@ -2,21 +2,18 @@
   "show_degensoft_logo": true,
   "wallets_file": "wallets.txt",
   "wallets_password": "12345",
-  "log_file": "default.log",          
+  "log_file": "default.log",
   "rpc": {
     "arbitrum": [
-      "https://1rpc.io/arb",
       "https://arbitrum.meowrpc.com",
       "https://arbitrum.llamarpc.com"
     ],
     "linea": [
-      "https://1rpc.io/linea",
       "https://linea.decubate.com",
       "https://linea.drpc.org"
     ],
     "ethereum": [
-      "https://ethereum.publicnode.com",
-      "https://1rpc.io/eth"
+      "https://ethereum.publicnode.com"
     ]
   },
   "explorer_url": {
@@ -26,7 +23,7 @@
   "max_gwei": 40,
   "shuffle_wallets": true,
   "shuffle_modules": true,
-  "network": "linea",
+  "network": "arbitrum",
   "random_module": false,
   "modules": {
     "kelp": {
@@ -35,17 +32,25 @@
       "amount_percent": [
         70,
         90
-      ],      
+      ],
       "max_tx_cost": 0.00001
     },
     "renzo": {
       "enabled": true,
-      "amount": [],
-      "amount_percent": [
-        70,
-        90
-      ],      
+      "amount": [
+        0.005,
+        0.005
+      ],
+      "amount_percent": [],
       "max_tx_cost": 0.00001
+    },
+    "karak": {
+      "enabled": true,
+      "amount": [
+        0.0001,
+        0.00012
+      ],
+      "amount_percent": []
     }
   },
   "delays": {

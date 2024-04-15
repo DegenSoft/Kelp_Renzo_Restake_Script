@@ -21,6 +21,7 @@ def retry_on_exception(retries):
                 try:
                     return await func(*args, **kwargs)
                 except Exception as e:
+                    # raise
                     attempt += 1
                     logger.error(f"attempt {attempt} failed with exception: {e}")
             logger.error(f"function {func.__name__} failed after {retries} attempts")
@@ -62,7 +63,7 @@ class Worker:
         account = web3.eth.account.from_key(private_key)
         balance = await web3.eth.get_balance(account.address)
         logger.info(f'account {i}/{len(self.wallets)} {account.address} '
-                    f'{web3.from_wei(balance, "ether"):.4f} ETH)')
+                    f'({web3.from_wei(balance, "ether"):.4f} ETH)')
         if not balance:
             logger.error('no balance')
             return False
@@ -72,6 +73,9 @@ class Worker:
             random.shuffle(_modules)
         if self.config.random_module:
             _modules = [random.choice(_modules)]
+        if 'karak' in _modules:
+            _modules.remove('karak')
+            _modules.append('karak')
         is_ok = False
         for i, module_name in enumerate(_modules, 1):
             res = await self.process_module(module_name, web3, account) or is_ok
@@ -89,6 +93,9 @@ class Worker:
         cls = modules[module_name]
         module_config = self.config.data['modules'][module_name]
         tx_receipt = await cls(web3=web3, config=module_config).run(account)
+        if not tx_receipt:
+            logger.error(f'FAILED')
+            return False
         tx_url = get_explorer_tx_url(tx_receipt.transactionHash, self.config.data['explorer_url'][self.config.network])
         if tx_receipt.status:
             logger.info(f'OK | {tx_url}')
