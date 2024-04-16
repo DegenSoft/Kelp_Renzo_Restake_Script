@@ -11,9 +11,10 @@ class BaseModule:
     CONTRACT_ADDRESS = None
     ABI = None
 
-    def __init__(self, web3: AsyncWeb3, config):
+    def __init__(self, web3: AsyncWeb3, config, proxy=None):
         self.web3 = web3
         self.config = config
+        self.proxy = proxy
         if self.CONTRACT_ADDRESS:
             self.contract = self.web3.eth.contract(self.web3.to_checksum_address(self.CONTRACT_ADDRESS),
                                                    abi=json.loads(self.ABI))

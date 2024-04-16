@@ -3,9 +3,11 @@ import random
 from sys import stderr
 
 from loguru import logger
+from itertools import cycle
 from web3 import AsyncWeb3, AsyncHTTPProvider
 
 from degensoft.config import Config
+from degensoft.utils import load_lines
 from degensoft.filereader import load_and_decrypt_wallets
 from degensoft.gas_limit import wait_for_gas
 from degensoft.logo import print_degensoft_splash
@@ -21,7 +23,6 @@ def retry_on_exception(retries):
                 try:
                     return await func(*args, **kwargs)
                 except Exception as e:
-                    # raise
                     attempt += 1
                     logger.error(f"attempt {attempt} failed with exception: {e}")
             logger.error(f"function {func.__name__} failed after {retries} attempts")
@@ -35,7 +36,8 @@ class Worker:
 
     def __init__(self, config):
         self.config = config
-        self.wallets = []
+        self.wallets = None
+        self.proxies = None
 
     async def run(self):
         try:
@@ -45,6 +47,14 @@ class Worker:
         except Exception as exp:
             logger.error(f'could not load wallets: {exp}')
             return
+        try:
+            if self.config.proxy_file:
+                proxies = load_lines(self.config.proxy_file)
+                if self.config.shuffle_proxies:
+                    random.shuffle(proxies)
+                self.proxies = cycle(proxies)
+        except Exception as exp:
+            logger.error(f'could not load proxies: {exp}')
         for i, private_key in enumerate(self.wallets, 1):
             is_ok = await self.process_wallet(private_key, i)
             if is_ok and i < len(self.wallets):
@@ -92,7 +102,11 @@ class Worker:
         logger.debug(f'processing {module_name}...')
         cls = modules[module_name]
         module_config = self.config.data['modules'][module_name]
-        tx_receipt = await cls(web3=web3, config=module_config).run(account)
+        if self.proxies and module_config['proxy_required']:
+            proxy = next(self.proxies)
+        else:
+            proxy = None
+        tx_receipt = await cls(web3=web3, config=module_config, proxy=proxy).run(account)
         if not tx_receipt:
             logger.error(f'FAILED')
             return False

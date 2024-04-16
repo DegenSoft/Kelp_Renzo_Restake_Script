@@ -2,6 +2,7 @@
   "show_degensoft_logo": true,
   "wallets_file": "wallets.txt",
   "wallets_password": "12345",
+  "proxy_file": "proxies.txt",
   "log_file": "default.log",
   "rpc": {
     "arbitrum": [
@@ -23,6 +24,7 @@
   "max_gwei": 40,
   "shuffle_wallets": true,
   "shuffle_modules": true,
+  "shuffle_proxies": true,
   "network": "arbitrum",
   "random_module": false,
   "modules": {
@@ -46,6 +48,7 @@
     },
     "karak": {
       "enabled": true,
+      "proxy_required": true,
       "amount": [
         0.0001,
         0.00012
