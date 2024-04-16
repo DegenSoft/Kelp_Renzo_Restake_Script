@@ -119,7 +119,8 @@ class Karak(BaseModule):
                 'signature': signature.signature.hex(),
             },
         }
-
+        logger.debug('wait for 3 sec...')
+        await asyncio.sleep(3)
         response = requests.post('https://restaking-backend.karak.network/finishRegisterWallet', params=params,
                                  headers=headers, json=json_data, proxies=proxies)
         if response.status_code != 200:
