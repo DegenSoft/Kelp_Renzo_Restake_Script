@@ -48,6 +48,8 @@ class Karak(BaseModule):
             value = random_float(self.config['amount'][0],
                                  min(self.config['amount'][1], _max_value))
         else:
+            if self.config['amount_percent'][0] == self.config['amount_percent'][1] == 100:
+                return balance
             value = _max_value * random.randint(*self.config['amount_percent']) / 100.0
         return self.web3.to_wei(value, 'ether')
 
