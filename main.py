@@ -102,7 +102,7 @@ class Worker:
         logger.debug(f'processing {module_name}...')
         cls = modules[module_name]
         module_config = self.config.data['modules'][module_name]
-        if self.proxies and module_config['proxy_required']:
+        if self.proxies and module_config.get('proxy_required'):
             proxy = next(self.proxies)
         else:
             proxy = None
