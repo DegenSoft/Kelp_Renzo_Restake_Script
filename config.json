@@ -40,8 +40,8 @@
     "renzo": {
       "enabled": true,
       "amount": [
-        0.005,
-        0.005
+        0.002,
+        0.004
       ],
       "amount_percent": [],
       "max_tx_cost": 0.00001
@@ -49,11 +49,11 @@
     "karak": {
       "enabled": true,
       "proxy_required": true,
-      "amount": [
-        0.0001,
-        0.00012
-      ],
-      "amount_percent": []
+      "amount": [],
+      "amount_percent": [
+        100,
+        100
+      ]
     }
   },
   "delays": {
@@ -62,8 +62,8 @@
       120
     ],
     "project": [
-      60,
-      90
+      10,
+      20
     ]
   }
 }
