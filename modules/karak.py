@@ -32,8 +32,9 @@ class Karak(BaseModule):
             tx_receipt = await ezeth.approve(account, self.KARAK_EZETH_CONTRACT_ADDRESS, value)
             if tx_receipt.status:
                 logger.debug('approve is ok')
-                logger.debug('wait for 3 sec...')
-                await asyncio.sleep(3)
+                delay = random.randint(15, 25)
+                logger.debug(f'wait for {delay} sec...')
+                await asyncio.sleep(delay)
             else:
                 raise RuntimeError('failed to approve')
 
