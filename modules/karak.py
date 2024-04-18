@@ -104,7 +104,7 @@ class Karak(BaseModule):
 
         # getting message to sign
         params = {'batch': '1'}
-        json_data = {'0': {'referralCode': '6n3sK'}}
+        json_data = '{"0":{"referralCode":"%s"}}' % ref
 
         response = requests.post('https://restaking-backend.karak.network/startRegisterWallet', params=params,
                                  headers=headers, json=json_data, proxies=proxies)
