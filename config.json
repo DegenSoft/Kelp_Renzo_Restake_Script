@@ -21,7 +21,7 @@
     "arbitrum": "https://arbiscan.io/",
     "linea": "https://lineascan.build/"
   },
-  "max_gwei": 40,
+  "max_gwei": 50,
   "shuffle_wallets": true,
   "shuffle_modules": true,
   "shuffle_proxies": true,
@@ -38,7 +38,7 @@
       "max_tx_cost": 0.00001
     },
     "renzo": {
-      "enabled": true,
+      "enabled": false,
       "amount": [
         0.001,
         0.002
@@ -59,8 +59,8 @@
   },
   "delays": {
     "wallet": [
-      90,
-      120
+      5,
+      10
     ],
     "project": [
       10,
