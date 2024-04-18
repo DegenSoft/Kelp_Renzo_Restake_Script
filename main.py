@@ -5,6 +5,7 @@ from sys import stderr
 from loguru import logger
 from itertools import cycle
 from web3 import AsyncWeb3, AsyncHTTPProvider
+from web3.datastructures import AttributeDict
 
 from degensoft.config import Config
 from degensoft.utils import load_lines
@@ -50,9 +51,10 @@ class Worker:
         try:
             if self.config.proxy_file:
                 proxies = load_lines(self.config.proxy_file)
-                if self.config.shuffle_proxies:
-                    random.shuffle(proxies)
-                self.proxies = cycle(proxies)
+                if proxies:
+                    if self.config.shuffle_proxies:
+                        random.shuffle(proxies)
+                    self.proxies = cycle(proxies)
         except Exception as exp:
             logger.error(f'could not load proxies: {exp}')
         for i, private_key in enumerate(self.wallets, 1):
@@ -76,7 +78,7 @@ class Worker:
                     f'({web3.from_wei(balance, "ether"):.4f} ETH)')
         if not balance:
             logger.error('no balance')
-            return False
+            # return False
         _modules = [_name for _name in self.config.data['modules'] if
                     self.config.data['modules'][_name]['enabled']]
         if self.config.shuffle_modules:
@@ -110,6 +112,8 @@ class Worker:
         if not tx_receipt:
             logger.error(f'FAILED')
             return False
+        if type(tx_receipt) is not AttributeDict:
+            return tx_receipt
         tx_url = get_explorer_tx_url(tx_receipt.transactionHash, self.config.data['explorer_url'][self.config.network])
         if tx_receipt.status:
             logger.info(f'OK | {tx_url}')

@@ -40,8 +40,8 @@
     "renzo": {
       "enabled": true,
       "amount": [
-        0.002,
-        0.004
+        0.001,
+        0.002
       ],
       "amount_percent": [],
       "max_tx_cost": 0.00001
@@ -49,6 +49,7 @@
     "karak": {
       "enabled": true,
       "proxy_required": true,
+      "registration_only": true,
       "amount": [],
       "amount_percent": [
         100,
