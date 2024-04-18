@@ -38,12 +38,12 @@
       "max_tx_cost": 0.00001
     },
     "renzo": {
-      "enabled": false,
-      "amount": [
-        0.001,
-        0.002
+      "enabled": true,
+      "amount": [],
+      "amount_percent": [
+        80,
+        90
       ],
-      "amount_percent": [],
       "max_tx_cost": 0.00001
     },
     "karak": {
@@ -59,12 +59,12 @@
   },
   "delays": {
     "wallet": [
-      5,
-      10
+      90,
+      120
     ],
     "project": [
-      10,
-      20
+      60,
+      90
     ]
   }
 }
