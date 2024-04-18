@@ -49,7 +49,7 @@
     "karak": {
       "enabled": true,
       "proxy_required": true,
-      "registration_only": true,
+      "registration_only": false,
       "amount": [],
       "amount_percent": [
         100,

@@ -1,9 +1,11 @@
 import asyncio
 import random
-import requests
 
-from loguru import logger
+import requests
+import ua_generator
 from eth_account.messages import encode_defunct
+from loguru import logger
+
 from degensoft.utils import random_float
 from modules.base import BaseModule
 from modules.erc20 import Erc20Token
@@ -57,7 +59,8 @@ class Karak(BaseModule):
         return self.web3.to_wei(value, 'ether')
 
     def _get_headers(self):
-        return {
+        ua = ua_generator.generate(device='desktop', browser=('chrome', 'safari'), platform=('windows', 'macos'))
+        headers = {
             'Accept': '*/*',
             'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
             'Connection': 'keep-alive',
@@ -67,12 +70,10 @@ class Karak(BaseModule):
             'Sec-Fetch-Dest': 'empty',
             'Sec-Fetch-Mode': 'cors',
             'Sec-Fetch-Site': 'same-site',
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
             'content-type': 'application/json',
-            'sec-ch-ua': '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
-            'sec-ch-ua-mobile': '?0',
-            'sec-ch-ua-platform': '"Windows"',
         }
+        headers.update(ua.headers.get())
+        return headers
 
     async def _login_karak(self, account):
         headers = self._get_headers()
