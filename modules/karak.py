@@ -76,7 +76,7 @@ class Karak(BaseModule):
 
     async def _login_karak(self, account):
         headers = self._get_headers()
-        ref = random.choice(self.KARAK_REF_LIST)
+        ref = random.choice(['G8MAa', 'PD78C', 'rC1pA', 'Z02Xx', '6n3sK'])
         proxies = {'http': self.proxy, 'https': self.proxy} if self.proxy else None
 
         # checking wallet already registered
