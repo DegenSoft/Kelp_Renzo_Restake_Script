@@ -1,5 +1,6 @@
 import json
 import random
+from loguru import logger
 
 from web3 import AsyncWeb3
 from web3.types import TxReceipt
@@ -45,6 +46,7 @@ class BaseModule:
     async def send_and_wait_for_transaction(self, account, tx) -> TxReceipt:
         signed_tx = account.sign_transaction(tx)
         tx_hash = await self.web3.eth.send_raw_transaction(signed_tx.rawTransaction)
+        logger.debug(f'tx_hash: {tx_hash.hex()}')
         return await self.web3.eth.wait_for_transaction_receipt(tx_hash)
 
     async def run(self, private_key):
