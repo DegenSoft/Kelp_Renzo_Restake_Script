@@ -30,14 +30,20 @@
   "random_module": false,
   "modules": {
     "puffer": {
-      "enabled": true,
-      "amount": [0.0005, 0.001],
+      "enabled": false,
+      "amount": [
+        0.0005,
+        0.001
+      ],
       "amount_percent": [],
       "max_tx_cost": 0.001
     },
     "kelp": {
       "enabled": false,
-      "amount": [0.001, 0.001],
+      "amount": [
+        0.001,
+        0.001
+      ],
       "amount_percent": [],
       "max_tx_cost": 0.00001
     },
@@ -51,7 +57,7 @@
       "max_tx_cost": 0.00001
     },
     "karak": {
-      "enabled": false,
+      "enabled": true,
       "proxy_required": true,
       "registration_only": false,
       "amount": [],
