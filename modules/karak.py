@@ -1,3 +1,4 @@
+import os
 import asyncio
 import random
 import json
@@ -110,7 +111,8 @@ class Karak(BaseModule):
         if not self.config.get('referal_codes_file'):
             return
         with open(self.config['referal_codes_file'], 'a') as fw:
-            fw.writelines(codes)
+            for code in codes:
+                fw.write(f'{code}\n')
 
     async def _login_karak(self, account):
         headers = self._get_headers()
