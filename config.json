@@ -59,7 +59,8 @@
     "karak": {
       "enabled": true,
       "proxy_required": true,
-      "registration_only": false,
+      "registration_only": true,
+      "referal_codes_file": "karak_refs.txt",
       "amount": [],
       "amount_percent": [
         100,

@@ -100,6 +100,18 @@ class Karak(BaseModule):
         headers.update(ua.headers.get())
         return headers
 
+    def _save_referals(self, data, count):
+        try:
+            codes = [data['code'] for data in data[0]['result']['data']]
+        except Exception as ex:
+            logger.error(f'could not collect ref codes: {ex}')
+            return
+        codes = codes[:count]
+        if not self.config['referal_codes_file']:
+            return
+        with open(self.config['referal_codes_file'], 'a') as fw:
+            fw.writelines(codes)
+
     async def _login_karak(self, account):
         headers = self._get_headers()
         ref = random.choice(['6vnaa', 'G8MAa', 'PD78C', 'rC1pA', 'Z02Xx', '6n3sK'])
@@ -114,6 +126,7 @@ class Karak(BaseModule):
                                 headers=headers, proxies=proxies)
         if response.status_code == 200:
             logger.debug('already registered in karak')
+            self._save_referals(response.json(), 1)
             return
 
         logger.debug('registering wallet in karak...')
@@ -161,8 +174,8 @@ class Karak(BaseModule):
             'batch': '1',
             'input': '{"0":{"wallet":"%s"}}' % account.address,
         }
-        response = requests.get('https://restaking-backend.karak.network/getXP', params=params, headers=headers,
+        response = requests.get('https://restaking-backend.karak.network/getReferrals', params=params, headers=headers,
                                 proxies=proxies)
-        # logger.debug(response.json())
+        self._save_referals(response.json(), 1)
 
         logger.debug('wallet registered!')
