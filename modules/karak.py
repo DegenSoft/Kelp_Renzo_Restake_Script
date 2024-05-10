@@ -107,7 +107,7 @@ class Karak(BaseModule):
             logger.error(f'could not collect ref codes: {ex}')
             return
         codes = codes[:count]
-        if not self.config['referal_codes_file']:
+        if not self.config.get('referal_codes_file'):
             return
         with open(self.config['referal_codes_file'], 'a') as fw:
             fw.writelines(codes)
