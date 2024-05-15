@@ -22,7 +22,7 @@
     "linea": "https://lineascan.build/",
     "ethereum": "https://etherscan.io/"
   },
-  "max_gwei": 50,
+  "max_gwei": 30,
   "shuffle_wallets": true,
   "shuffle_modules": true,
   "shuffle_proxies": true,
@@ -30,12 +30,12 @@
   "random_module": false,
   "modules": {
     "puffer": {
-      "enabled": false,
-      "amount": [
-        0.0005,
-        0.001
+      "enabled": true,
+      "amount": [],
+      "amount_percent": [
+        80,
+        90
       ],
-      "amount_percent": [],
       "max_tx_cost": 0.001
     },
     "kelp": {
@@ -57,7 +57,7 @@
       "max_tx_cost": 0.00001
     },
     "karak": {
-      "enabled": true,
+      "enabled": false,
       "proxy_required": true,
       "registration_only": false,
       "referal_codes_file": "karak_refs.txt",
