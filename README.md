@@ -1,9 +1,9 @@
-<h1 align="center">KelpDao & Renzo & Karak - скрипт стейкинга ETH</h1>
+<h1 align="center">KelpDao & Renzo & Karak & Puffer - скрипт стейкинга ETH</h1>
 
 <h2>✅ Функционал скрипта</h2>
 
-- Стейкинг Renzo, KelpDao и Karak
-- Выбор сети для стейкинга: Ethereum, Linea, Arbitrum
+- Стейкинг Renzo, KelpDao, Karak и Puffer
+- Выбор сети для стейкинга: Ethereum, Linea, Arbitrum, Ethereum
 - Возможность использования зашифрованных кошельков
 - Возможность выбора проекта для стейкинга
 - Выбор суммы в ETH или % от баланса
