@@ -57,7 +57,7 @@
       "max_tx_cost": 0.00001
     },
     "karak": {
-      "enabled": false,
+      "enabled": true,
       "proxy_required": true,
       "registration_only": false,
       "referal_codes_file": "karak_refs.txt",
