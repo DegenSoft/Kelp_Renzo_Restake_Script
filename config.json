@@ -30,11 +30,11 @@
   "random_module": false,
   "modules": {
     "puffer": {
-      "enabled": true,
+      "enabled": false,
       "amount": [],
       "amount_percent": [
         80,
-        90
+        90  
       ],
       "max_tx_cost": 0.001
     },
@@ -58,7 +58,7 @@
     },
     "karak": {
       "enabled": true,
-      "proxy_required": true,
+      "proxy_required": false,
       "registration_only": false,
       "referal_codes_file": "karak_refs.txt",
       "amount": [],
