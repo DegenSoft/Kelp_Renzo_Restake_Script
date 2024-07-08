@@ -26,7 +26,7 @@
   "shuffle_wallets": true,
   "shuffle_modules": true,
   "shuffle_proxies": true,
-  "network": "ethereum",
+  "network": "arbitrum",
   "random_module": false,
   "modules": {
     "puffer": {
@@ -58,6 +58,8 @@
     },
     "karak": {
       "enabled": true,
+      "withdraw_start": false,
+      "withdraw_finish": false,
       "proxy_required": false,
       "registration_only": false,
       "referal_codes_file": "karak_refs.txt",
