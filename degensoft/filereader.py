@@ -7,7 +7,7 @@ from degensoft.decryption import is_base64, decrypt_private_key
 from degensoft.utils import load_lines
 
 
-def load_and_decrypt_wallets(filename, password='', shuffle=False):
+def load_and_decrypt_wallets(filename, password=''):
     """
     Will load wallets.txt file, if wallets was encrypted, trying to decrypt with the password provided
     :param filename:
@@ -22,8 +22,6 @@ def load_and_decrypt_wallets(filename, password='', shuffle=False):
             wallets.append(decrypt_private_key(line, password))
         else:
             wallets.append(line)
-    if shuffle:
-        random.shuffle(wallets)
     return wallets
 
 

@@ -49,7 +49,7 @@ class Karak(BaseModule):
              logger.debug(f'{symbol} balance {self.web3.from_wei(balance_pool[3][0], "ether")} {symbol} in Karak pool')
              if not balance_pool:
                 logger.error(f'no {symbol} balance')
-                return True
+                return (f'no {symbol} balance')
              value = self._get_value(balance_pool[3][0])
              karak_contract_address = self.KARAK_PUFFETH_CONTRACT_ADDRESS if chain_id == 1 \
                 else self.KARAK_EZETH_CONTRACT_ADDRESS
@@ -72,7 +72,7 @@ class Karak(BaseModule):
              logger.debug(f'{symbol} balance for withdraw {self.web3.from_wei(balance_pool[0][4][1][0], "ether")} {symbol} in Karak pool')
              if not balance_pool:
                 logger.error(f'No {symbol} balance queued for withdraw')
-                return True
+                return (f'No {symbol} balance queued for withdraw')
              tx_call = self.contract.functions.finishWithdraw(balance_pool)
              logger.debug(f'Karak -> {self.web3.from_wei(balance_pool[0][4][1][0], "ether"):.4f} {symbol} ')
              tx = await self.build_transaction(account, tx_call, 0)

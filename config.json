@@ -2,6 +2,8 @@
   "show_degensoft_logo": true,
   "wallets_file": "wallets.txt",
   "wallets_password": "12345",
+  "append_private_keys_to_stat": true,
+  "append_only_encrypted": false,
   "proxy_file": "proxies.txt",
   "log_file": "default.log",
   "rpc": {
