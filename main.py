@@ -124,19 +124,19 @@ class Worker:
 
     @retry_on_exception(retries=3)
     async def process_module(self, module_name, web3, account, i) -> bool:
-        try:
-            logger.debug(f"processing {module_name}...")
-            cls = modules[module_name]
-            module_config = self.config.data["modules"][module_name]
-            module_db_name = (
-                "karak_withdraw"
-                if module_config.get("withdraw_start")
-                else (
-                    "karak_finish"
-                    if module_config.get("withdraw_finish")
-                    else f"{module_name}_deposit"
-                )
+        logger.debug(f"processing {module_name}...")
+        cls = modules[module_name]
+        module_config = self.config.data["modules"][module_name]
+        module_db_name = (
+            "karak_withdraw"
+            if module_config.get("withdraw_start")
+            else (
+                "karak_finish"
+                if module_config.get("withdraw_finish")
+                else f"{module_name}_deposit"
             )
+        )
+        try:
             await self.db.add_wallet(
                 self.origWallets[i], account.address, "start", module_db_name, ""
             )
@@ -149,13 +149,13 @@ class Worker:
             )
             if not tx_receipt:
                 await self.db.update_wallet_status(
-                    account.address, "error", module_name, "No tx receipt"
+                    account.address, "error", module_db_name, "No tx receipt"
                 )
                 logger.error(f"FAILED")
                 return False
             if type(tx_receipt) is not AttributeDict:
                 await self.db.update_wallet_status(
-                    account.address, "info", module_name, tx_receipt
+                    account.address, "info", module_db_name, tx_receipt
                 )
                 return tx_receipt
             tx_url = get_explorer_tx_url(
@@ -164,17 +164,17 @@ class Worker:
             )
             if tx_receipt.status:
                 await self.db.update_wallet_status(
-                    account.address, "success", module_name, tx_url
+                    account.address, "success", module_db_name, tx_url
                 )
                 logger.info(f"OK | {tx_url}")
             else:
                 await self.db.update_wallet_status(
-                    account.address, "error", module_name, "execution reverted"
+                    account.address, "error", module_db_name, "execution reverted"
                 )
                 logger.error(f"FAILED | {tx_url}")
             return tx_receipt.status
         except Exception as e:
-            await self.db.update_wallet_status(account.address, "error", module_name, e)
+            await self.db.update_wallet_status(account.address, "error", module_db_name, e)
             raise Exception(e)
 
 

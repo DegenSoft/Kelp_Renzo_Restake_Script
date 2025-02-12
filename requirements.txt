@@ -46,5 +46,5 @@ urllib3==2.2.1
 web3==6.16.0
 web3-proxy-providers==0.3
 websockets==10.4
+ua_generator==0.4.2
 yarl==1.9.4
-ua-generator==0.4.2
