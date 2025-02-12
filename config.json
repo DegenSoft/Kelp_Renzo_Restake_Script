@@ -3,13 +3,14 @@
   "wallets_file": "wallets.txt",
   "wallets_password": "12345",
   "append_private_keys_to_stat": true,
-  "append_only_encrypted": false,
+  "append_only_encrypted": true,
   "proxy_file": "proxies.txt",
   "log_file": "default.log",
   "rpc": {
     "arbitrum": [
-      "https://arbitrum.meowrpc.com",
-      "https://arbitrum.llamarpc.com"
+      "https://rpc.ankr.com/arbitrum",
+      "https://arbitrum-one-rpc.publicnode.com ",
+      "https://1rpc.io/arb"
     ],
     "linea": [
       "https://linea.decubate.com",

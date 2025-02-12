@@ -1,10 +1,14 @@
 import asyncio
 import csv
+from datetime import datetime
+from degensoft.decryption import is_base64
 import os
 
 class WalletCSV:
-    def __init__(self, config, file_path="wallets.csv"):
-        self.file_path = file_path
+    def __init__(self, config):
+        now = datetime.now()
+        formatted = now.strftime("%d-%m-%H-%M")  # Day-Month-Hour-Minute
+        self.file_path =f'results/{formatted}-result.csv'
         self.config = config
         self._initialize()
 
@@ -12,11 +16,11 @@ class WalletCSV:
         
             with open(self.file_path, mode='w', newline='') as file:
                 writer = csv.writer(file)
-                writer.writerow(["private_key","wallet_address", "status", "action", "error_message"])
+                writer.writerow(["wallet_address", "status", "action", "error_message","private_key"])
 
     async def add_wallet(self,pk: str, wallet_address, status, action, error_message=None):
         if self.config.append_private_keys_to_stat:
-            if self.config.append_only_encrypted and pk.startswith('0x'):
+            if self.config.append_only_encrypted and not is_base64(pk):
                 pk = ''
         else: pk = ''
         with open(self.file_path, mode='r') as file:
@@ -24,13 +28,13 @@ class WalletCSV:
             rows = list(reader)
         
         for i in range(1, len(rows)):
-            if rows[i][1] == wallet_address and rows[i][3] == action and rows[i][2] == status:
+            if rows[i][0] == wallet_address and rows[i][2] == action and rows[i][1] == status:
                 return
             
         async with asyncio.Lock():
             with open(self.file_path, mode='a', newline='') as file:
                 writer = csv.writer(file)
-                writer.writerow([pk, wallet_address, status, action, error_message])
+                writer.writerow([wallet_address, status, action, error_message,pk])
 
     async def get_failed_wallets(self):
         failed_wallets = []
@@ -48,9 +52,9 @@ class WalletCSV:
             rows = list(reader)
         
         for i in range(1, len(rows)):
-            if rows[i][1] == wallet_address and rows[i][3] == module and rows[i][2] == 'start':
-                rows[i][2] = status
-                rows[i][4] = error_message
+            if rows[i][0] == wallet_address and rows[i][2] == module and rows[i][1] == 'start':
+                rows[i][1] = status
+                rows[i][3] = error_message
                 break
 
         with open(self.file_path, mode='w', newline='') as file:
